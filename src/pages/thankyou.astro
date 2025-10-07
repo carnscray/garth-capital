@@ -1,0 +1,67 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
+import Banner from '../components/Banner.astro';
+import BlogLatest from '../components/BlogLatest.astro';
+import HomeInfo1 from '~/components/HomeInfo-1.astro';
+import HomeTestimonials from '~/components/HomeTestimonials.astro';
+
+// SEO Values //
+const pageTitle = "Thank You for Contacting Us";
+const pageDescription = "Your message has been received. Thank you for your interest in Know Brainer Trivia! We will be in touch shortly.";
+
+---
+
+<Layout title={pageTitle} description={pageDescription} noindex={true}>
+  <Banner />
+
+
+
+<section class="w-full py-4 px-4">
+  <div class="max-w-6xl mx-auto text-center">
+    <h2 class="text-8xl font-normal mb-4 text-main">Thankyou.</h2>
+
+  </div>
+</section>
+
+
+<!-- Thnkyou messge -->
+<section class="mt-0 lg:mb-12 mb-4">
+  <div class="w-full lg:h-[100px] bg-stone flex items-center justify-center py-8 px-8 lg:pr-16">
+    <p class="text-lg lg:text-lg text-cardsub text-center">
+      Thank you for reaching out. One of our team will be in contact asap.
+    </p>
+  </div>
+</section>
+
+
+
+
+<div class="h-4 bg-white"></div>
+
+
+
+
+<section class="bg-second text-white pt-8 pb-16 rounded-4xl mx-4 lg:mx-12">
+  <div class="max-w-[1000px] mx-auto px-4 text-center">
+    <h1 class="text-6xl md:text-7xl font-bold mb-4">YouTube.</h1>
+    <div class="border-2 border-white rounded-sm overflow-hidden">
+      <iframe
+        class="w-full aspect-video"
+        src="https://www.youtube.com/embed/3xMGkPAcU90"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+
+<div class="h-12 bg-white"></div>
+<BlogLatest />
+<div class="h-24 bg-white"></div>
+
+
+</Layout>

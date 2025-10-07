@@ -1,0 +1,90 @@
+<section class="pt-30 pb-10 px-4 sm:px-0 sm:pt-[15%] sm:pb-15">
+  <div class="text-center sm:text-left max-w-lg mx-auto sm:mx-0 sm:ml-[10%] text-white">
+    <h1 class="text-5xl sm:text-6xl font-normal px-4 sm:px-0 text-white sm:whitespace-nowrap whitespace-normal">
+      Let's get snout<br class="hidden inline" /> and about
+    </h1>
+  </div>
+
+  <form method="GET" action="/find" class="w-full mt-6 relative">
+    <div class="flex flex-nowrap items-center justify-center sm:justify-start gap-3 max-w-lg mx-auto sm:mx-0 sm:ml-[10%] relative">
+      <div class="relative w-full max-w-[250px]">
+        <input
+          type="text"
+          id="homeSuburbInput"
+          name="suburbLabel"
+          placeholder="Search suburb or postcode"
+          class="w-full h-12 px-4 border border-gray-300 bg-white text-gray-800 rounded-xl text-base focus:outline-none focus:ring-0 text-left"
+          autocomplete="off"
+        />
+        <ul id="homeSuggestions" class="absolute z-10 w-full bg-white border border-gray-300 rounded-xl shadow-md hidden max-h-60 overflow-y-auto text-left text-sm"></ul>
+      </div>
+
+      <input type="hidden" id="homeLat" name="lat" />
+      <input type="hidden" id="homeLon" name="lon" />
+      <input type="hidden" name="radius" value="3" />
+
+<button
+  type="submit"
+  class="h-12 px-3 py-0 bg-buttonmain text-white text-sm font-semibold rounded-xl hover:bg-buttonhover"
+>
+  <iconify-icon icon="lucide:search" width="22" height="22" class="text-white" />
+</button>
+    </div>
+  </form>
+</section>
+
+<!-- 🧠 Predictive suburb/postcode logic for Home page -->
+<script is:visible>
+  document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('homeSuburbInput');
+    const suggestionsBox = document.getElementById('homeSuggestions');
+    const latInput = document.getElementById('homeLat');
+    const lonInput = document.getElementById('homeLon');
+
+    let suburbs = [];
+
+    fetch('/data/australian-postcodes.json')
+      .then(res => res.json())
+      .then(data => suburbs = data)
+      .catch(err => console.error('Failed to load suburb data:', err));
+
+    input.addEventListener('input', () => {
+      const val = input.value.toLowerCase();
+      suggestionsBox.innerHTML = '';
+      if (!val || suburbs.length === 0) {
+        suggestionsBox.classList.add('hidden');
+        return;
+      }
+
+      const matches = suburbs.filter(entry =>
+        entry.suburb.toLowerCase().includes(val) || entry.postcode.includes(val)
+      ).slice(0, 10);
+
+      if (matches.length === 0) {
+        suggestionsBox.classList.add('hidden');
+        return;
+      }
+
+      matches.forEach(match => {
+        const li = document.createElement('li');
+        li.textContent = `${match.suburb}, ${match.state} ${match.postcode}`;
+        li.className = 'px-4 py-2 hover:bg-gray-100 cursor-pointer';
+        li.addEventListener('click', () => {
+          input.value = `${match.suburb}, ${match.state} ${match.postcode}`;
+          latInput.value = match.lat;
+          lonInput.value = match.lon;
+          suggestionsBox.classList.add('hidden');
+        });
+        suggestionsBox.appendChild(li);
+      });
+
+      suggestionsBox.classList.remove('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!suggestionsBox.contains(e.target) && e.target !== input) {
+        suggestionsBox.classList.add('hidden');
+      }
+    });
+  });
+</script>

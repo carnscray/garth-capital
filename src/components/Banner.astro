@@ -1,0 +1,62 @@
+<!-- src/components/Banner.astro -->
+<div class="w-full bg-transparent relative z-50">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex-shrink-0">
+      <img
+        src="/img/logo/kb_logo_main.png"
+        alt="Know Brainer logo"
+        class="max-h-12 w-auto"
+      />
+    </a>
+
+    <!-- Desktop menu (centered) -->
+    <div class="hidden lg:flex items-center gap-6">
+      <a href="/" class="link link-hover">Home</a>
+      <a href="/find" class="link link-hover">Local</a>
+      <a href="/quiz" class="link link-hover">Online</a>
+      <a href="/book" class="link link-hover">Book</a>
+      <a href="/blog" class="link link-hover">Blog</a>
+
+      <a href="/#contact" class="link link-hover">Contact</a>
+    </div>
+
+    <!-- Tagline (top right on large) -->
+    <h2 class="hidden lg:block text-right text-2xl text-charcoal">
+      Trivia. But Better.
+    </h2>
+
+    <!-- Hamburger button -->
+    <label
+      for="nav-toggle"
+      class="lg:hidden p-2 rounded-xl border border-charcoal/20 cursor-pointer"
+      aria-label="Open menu"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </label>
+  </div>
+
+  <!-- Checkbox toggle for mobile drawer -->
+  <input id="nav-toggle" type="checkbox" class="peer hidden" />
+
+  <!-- Mobile drawer -->
+  <div
+    class="lg:hidden 
+           max-h-0 overflow-hidden transition-all duration-300
+           peer-checked:max-h-[600px]"
+  >
+    <div class="px-4 py-3 flex flex-col items-end">
+      <a href="/" class="link link-hover py-2 w-full text-right">Home</a>
+      <a href="/find" class="link link-hover py-2 w-full text-right">Local</a>
+      <a href="/quiz" class="link link-hover py-2 w-full text-right">Online</a>
+      <a href="/book" class="link link-hover py-2 w-full text-right">Book</a>
+      <a href="/blog" class="link link-hover py-2 w-full text-right">Blog</a>
+
+      <a href="/#contact" class="link link-hover py-2 w-full text-right">Contact</a>
+    </div>
+  </div>
+</div>

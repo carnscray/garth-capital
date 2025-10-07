@@ -1,0 +1,27 @@
+---
+export interface Props {
+  locs: {
+    name: string;
+    type: string;
+    coordinates: [number, number] | null;
+    town?: string;
+    isOffLead?: boolean;
+    isEnclosed?: boolean;
+    hasWater?: boolean;
+  }[];
+}
+
+const { locs } = Astro.props;
+---
+
+<div class="relative w-full h-[50vh] sm:h-[600px] lg:h-full bg-base-200 rounded">
+  <!-- Data for JS script -->
+  <div
+    id="triviaMap"
+    class="absolute inset-0 z-0 rounded"
+    data-locs={JSON.stringify(locs)}
+  ></div>
+
+  <!-- Load Leaflet logic as an external module -->
+  <script type="module" src="/map-init.js"></script>
+</div>

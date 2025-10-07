@@ -1,0 +1,143 @@
+---
+export interface Props {
+  locs: {
+    id: string;
+    name: string;
+    type: string;
+    town?: string;
+    introHtml?: string;
+    imageUrl?: string | null;
+    squareimageUrl?: string | null;
+    imageAlt?: string;
+
+    locationRegionIsoSlug: string;
+    locationTownSlug: string;
+    locationNameSlug: string;
+    locationFrequency?: string;
+
+    isMon?: boolean;
+    isTue?: boolean;
+    isWed?: boolean;
+    isThu?: boolean;
+    isFri?: boolean;
+    isSat?: boolean;
+    isSun?: boolean;
+
+    
+  }[];
+}
+
+const { locs } = Astro.props;
+const limit = 12;
+const needsPagination = locs.length > limit;
+---
+
+<div class="w-full p-4">
+
+  <!-- 🔹 Section Heading -->
+  <h3 class="text-second font-bold mb-4 text-center sm:text-left">
+    Search Results – {locs.length} Location{locs.length !== 1 ? 's' : ''}
+  </h3>
+
+  {locs.length === 0 ? (
+    <div class="text-center sm:text-left text-gray-500 text-base sm:text-lg py-12">
+      No results match this criteria.
+    </div>
+  ) : (
+    <>
+      <div id="search-card-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+        {locs.map((loc, index) => (
+          <article
+            class={`bg-white border border-gray-200 shadow-sm hover:shadow-lg rounded-lg overflow-hidden flex p-1 flex-col ${index >= limit ? 'hidden' : ''}`}
+            key={loc.id}
+          >
+            {loc.squareimageUrl && (
+ 
+                <a
+                  href={`/locations/${loc.locationRegionIsoSlug}/${loc.locationTownSlug}/${loc.locationNameSlug}`}
+                  class="relative block group overflow-hidden rounded"
+                >
+                  <img
+                    src={loc.squareimageUrl}
+                    alt={loc.imageAlt || loc.name}
+                    class="w-full aspect-square object-cover rounded transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+
+                  {(loc.isMon || loc.isTue || loc.isWed || loc.isThu || loc.isFri || loc.isSat || loc.isSun) && (
+                    <div class="absolute top-1.5 right-1.5 bg-black/60 text-white text-[11px] px-2 py-1 rounded-md flex items-center gap-1 z-10">
+                      <iconify-icon icon="lucide:calendar" width="12" height="12" class="text-white" />
+                      {
+                        loc.isMon ? 'MON' :
+                        loc.isTue ? 'TUE' :
+                        loc.isWed ? 'WED' :
+                        loc.isThu ? 'THU' :
+                        loc.isFri ? 'FRI' :
+                        loc.isSat ? 'SAT' :
+                        loc.isSun ? 'SUN' : ''
+                      }
+                    </div>
+                  )}
+                </a>
+
+            )}
+
+            <div class="p-2 flex-1 flex flex-col">
+              <a
+                href={`/locations/${loc.locationRegionIsoSlug}/${loc.locationTownSlug}/${loc.locationNameSlug}`}
+                class="text-base font-bold truncate text-cardtitle hover:underline"
+              >
+                {loc.name}
+              </a>
+
+              {loc.town && (
+                <p class="text-xs text-cardsub uppercase mt-0.5">{loc.town}</p>
+              )}
+
+              {loc.locationFrequency && (
+                <div class="mt-1 flex justify-end">
+                  <p class="text-[11px] text-gray-700 bg-gray-100 rounded-full px-3 py-1 inline-block">
+                    {loc.locationFrequency}
+                  </p>
+                </div>
+              )}
+
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {needsPagination && (
+        <div class="text-center mt-6">
+          <button
+            id="load-more-btn"
+            class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 text-sm font-medium"
+          >
+            Load more
+          </button>
+        </div>
+      )}
+    </>
+  )}
+</div>
+
+<!-- 🚀 Minimal JS for Load More -->
+<script is:visible>
+  const limit = 12;
+  let current = limit;
+  const articles = document.querySelectorAll('#search-card-grid > article');
+  const btn = document.getElementById('load-more-btn');
+
+  if (btn && articles.length > limit) {
+    btn.addEventListener('click', () => {
+      const next = current + limit;
+      for (let i = current; i < next && i < articles.length; i++) {
+        articles[i].classList.remove('hidden');
+      }
+      current = next;
+      if (current >= articles.length) {
+        btn.style.display = 'none';
+      }
+    });
+  }
+</script>

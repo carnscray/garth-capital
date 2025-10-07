@@ -1,0 +1,51 @@
+---
+export interface Props {
+  contributor: any;
+}
+
+const { contributor } = Astro.props;
+const f = contributor?.fields ?? {};
+
+// Contentful (dogBlogContributor) fields
+const name = (f.authorName ?? 'Unnamed').toUpperCase();
+const slug = f.authorSlug ?? '#';
+const breed = f.authorBreed ?? '';
+const img = f.authorImgprofile ?? f.authorImgpost ?? null;
+
+const imageUrl = img?.fields?.file?.url
+  ? `https:${img.fields.file.url}?w=600&h=600&fit=thumb`
+  : null;
+
+const imageAlt = img?.fields?.title ?? `${name} profile image`;
+---
+
+<a
+  href={`/contributors/${slug}`}
+  class="group block rounded-2xl border border-0 hover:border-gray-200 hover:shadow-lg transition bg-white w-full max-w-sm mx-auto"
+>
+  <div class="p-6">
+    <div class="relative w-36 h-36 md:w-44 md:h-44 mx-auto rounded-full overflow-hidden">
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={imageAlt}
+          loading="lazy"
+          decoding="async"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          width="600"
+          height="600"
+        />
+      ) : (
+        <div class="w-full h-full bg-gray-100" />
+      )}
+      <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+    </div>
+  </div>
+
+  <div class="px-6 pb-6 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-second transition-transform duration-200 group-hover:scale-105">
+      {name}
+    </h2>
+    {breed && <p class="mt-1 text-gray-500 font-light">{breed}</p>}
+  </div>
+</a>

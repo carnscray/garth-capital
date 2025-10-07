@@ -1,0 +1,268 @@
+/* Import Outfit from Google Fonts — with 400, 500, 600 */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Custom font face for VVDSFifties-SExpBold */
+@font-face {
+  font-family: 'VVDS Fifties';
+  src: url('/fonts/VVDSFifties-SExpBold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Tailwind directives */
+@import "tailwindcss";
+
+/* Tailwind base layer override */
+@layer base {
+  html {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+
+  }
+
+  body, p, a, h3, h4 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    
+  }
+
+  h1, h2 {
+    font-family: 'VVDS Fifties', sans-serif;
+    font-weight: bold;
+  }
+}
+
+
+/* Selected colours */
+:root {
+  --color-lshade: #E5EBE6;
+  --color-laccent: #b6f4f9;
+
+  --color-main: #2c94c2;
+  --color-second: #1daff1;
+  --color-charcoal: #383737;
+  --color-stone: #f4f2ee;
+  
+  --color-daccent: #19c3ff;
+  --color-dshade: #222932;
+
+  --color-lgreen: #09c787;
+  --color-dgreen: #008e5e;
+  --color-lyellow: #f8de81;
+  --color-dyellow: #fbc500;
+
+  
+  --color-buttonmain: #2c94c2;
+  --color-buttonhover: #1daff1;
+
+  --color-cardtitle: #2C2C2C;
+  --color-cardsub: #2C2C2C;
+  --color-cardicon: #859BB0;
+}
+
+@layer utilities {
+  .text-main {
+    color: var(--color-main);
+  }
+
+  .text-second {
+    color: var(--color-second);
+  }
+
+  .text-charcoal {
+    color: var(--color-charcoal);
+  }
+
+  .text-laccent {
+    color: var(--color-laccent);
+  }
+
+  .text-lshade {
+    color: var(--color-lshade);
+  }
+
+  .text-daccent {
+    color: var(--color-daccent);
+  }
+
+  .text-dshade {
+    color: var(--color-dshade);
+  }
+
+  .text-cardtitle {
+    color: var(--color-cardtitle);
+  }
+
+  .text-cardsub {
+    color: var(--color-cardsub);
+  }
+
+  .text-cardicon {
+    color: var(--color-cardicon);
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+
+  @media (min-width: 640px) {
+    .sm\:text-main {
+      color: var(--color-main);
+    }
+  }
+
+
+  
+ /* Background and button utilities */
+.bg-main {
+  background-color: var(--color-main);
+}
+
+.border-main {
+  border-color: var(--color-main);
+}
+
+.hover\:bg-main:hover {
+  background-color: var(--color-main);
+}
+
+
+.bg-second {
+  background-color: var(--color-second);
+}
+
+.border-second {
+  border-color: var(--color-second);
+}
+
+.hover\:bg-second:hover {
+  background-color: var(--color-second);
+}
+
+
+
+
+
+.bg-daccent {
+  background-color: var(--color-daccent);
+}
+
+.hover\:bg-daccent:hover {
+  background-color: var(--color-daccent);
+}
+
+.bg-laccent {
+  background-color: var(--color-laccent);
+}
+
+.hover\:bg-\laccent:hover {
+  background-color: var(--color-laccent);
+}
+
+
+
+.bg-charcoal {
+  background-color: var(--color-charcoal);
+}
+
+.border-charcoal {
+  border-color: var(--color-charcoal);
+}
+
+.hover\:bg-charcoal:hover {
+  background-color: var(--color-charcoal);
+}
+
+
+
+
+
+
+.bg-stone {
+  background-color: var(--color-stone);
+}
+
+
+.border-stone {
+  border-color: var(--color-stone);
+}
+
+.hover\:bg-stone:hover {
+  background-color: var(--color-stone);
+}
+
+
+
+
+
+.bg-lgreen {
+  background-color: var(--color-lgreen);
+}
+.bg-dgreen {
+  background-color: var(--color-dgreen);
+}
+
+.bg-lyellow {
+  background-color: var(--color-lyellow);
+}
+.bg-dyellow {
+  background-color: var(--color-dyellow);
+}
+
+
+
+
+
+
+/* ✅ BUTTON COLORS - USE THESE */
+.bg-buttonmain {
+  background-color: var(--color-buttonmain);
+}
+
+.hover\:bg-buttonhover:hover {
+  background-color: var(--color-buttonhover);
+}
+
+.hover\:bg-stone:hover {
+  background-color: var(--color-stone);
+}
+
+
+
+
+.leaflet-popup-content-wrapper {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  padding: 0;
+  width: auto !important; /* Let your custom card control its width */
+}
+
+.leaflet-popup-tip {
+  display: none; /* optional: removes the pointer arrow */
+}
+
+
+
+/*
+* {
+  outline: 1px solid red;  
+}
+temporary debug - red line around everything */
+
+
+
+
+}

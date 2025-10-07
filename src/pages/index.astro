@@ -1,0 +1,91 @@
+---
+// Imports
+import Layout from '../layouts/Layout.astro';
+import HomeHero from '~/components/HomeHero.astro';
+import Banner from '~/components/Banner.astro';
+
+import HomeAction1 from '~/components/HomeAction-1.astro';
+import HomeAction2 from '~/components/HomeAction-2.astro';
+
+import HomeInfo1 from '~/components/HomeInfo-1.astro';
+import HomeInfo2 from '~/components/HomeInfo-2.astro';
+import HomeInfo3 from '~/components/HomeInfo-3.astro';
+
+import BlogLatest from '../components/BlogLatest.astro';
+
+
+import HomeCarousel from '~/components/HomeCarousel.astro';
+import Contact from '~/components/Contact.astro';
+import { getAllContributors } from '../lib/contentful';
+import client from '../lib/contentful';
+
+
+// Fetch contributors if needed later
+const contributors = await getAllContributors();
+
+// Fetch trivia locations for carousel
+const response = await client.getEntries({
+  content_type: 'triviaLocation',
+  order: 'fields.locationTime',
+});
+const triviaLocations = response.items;
+
+// SEO Values //
+const pageTitle = "Trivia. But Better. | Know Brainer Trivia";
+const pageDescription = "Don't just play trivia, experience it! Know Brainer Trivia hosts weekly quizzes with great prizes and a fun atmosphere. Perfect for friends, family, and teams.";
+
+
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+
+  <!-- Hero Section (100vh, no background image) -->
+  <section class="relative min-h-screen">
+    <div class="relative z-10 w-full h-full">
+      <HomeHero />
+    </div>
+  </section>.   
+
+  <!-- White gap between hero and action -->
+  <div class="h-12 bg-white"></div>
+
+  <!-- Action Buttons Section -->
+  <HomeAction1 />
+
+  <!-- White gap  -->
+  <div class="h-12 bg-white"></div>
+
+
+    <!-- Info Secion -->
+  <HomeInfo3 />
+
+
+  <!-- Info Secion -->
+  <HomeInfo1 />
+
+    <!-- White gap  -->
+  <div class="h-12 bg-white"></div>
+
+
+  <!-- Blog Latest Section -->
+  <BlogLatest />
+
+  <!-- White gap-->
+  <div class="h-12 bg-white"></div>
+
+  <!-- Trivia Locations Carousel -->
+  <HomeCarousel locations={triviaLocations} />
+
+
+
+  <!-- White gap before contact -->
+  <div class="h-12 bg-white"></div>
+
+<!-- Contact Us Section -->
+<section id="contact">
+  <Contact />
+</section>
+
+
+
+</Layout>

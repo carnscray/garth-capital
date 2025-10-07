@@ -1,0 +1,180 @@
+---
+export const prerender = false;
+
+import Banner from '../components/Banner.astro';
+import SearchHead from '../components/SearchHead.astro';
+import Layout from '../layouts/Layout.astro';
+
+import client from '../lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import SearchResultsCards from '../components/SearchResultsCards.astro';
+import SearchResultsMap from '../components/SearchResultsMap.astro';
+
+// Get query params from URL
+const url = new URL(Astro.request.url);
+
+
+const locationIsMon = url.searchParams.get('isMon') === 'true';
+const locationIsTue = url.searchParams.get('isTue') === 'true';
+const locationIsWed = url.searchParams.get('isWed') === 'true';
+const locationIsThu = url.searchParams.get('isThu') === 'true';
+const locationIsFri = url.searchParams.get('isFri') === 'true';
+const locationIsSat = url.searchParams.get('isSat') === 'true';
+const locationIsSun = url.searchParams.get('isSun') === 'true';
+const suburbLabel = url.searchParams.get('suburbLabel') ?? '';
+
+const lat = parseFloat(url.searchParams.get('lat') ?? '');
+const lon = parseFloat(url.searchParams.get('lon') ?? '');
+const radius = parseFloat(url.searchParams.get('radius') ?? '0');
+const hasCoords = !isNaN(lat) && !isNaN(lon) && radius > 0;
+
+// Fetch entries from Contentful
+const response = await client.getEntries({
+  content_type: 'triviaLocation',
+  
+});
+
+// Map locations with safe defaults
+const locs: any[] = response.items.map((item: any) => {
+
+  const hero = item.fields.locationHero;
+  const square = item.fields.locationSquare;
+
+  const imageUrl = hero?.fields?.file?.url
+    ? `https:${hero.fields.file.url}`
+    : null;
+
+  const squareimageUrl = square?.fields?.file?.url
+    ? `https:${square.fields.file.url}`
+    : null;
+
+  const imageAlt = hero?.fields?.title || square?.fields?.title || item.fields.locationName;
+  
+  return {
+    id: item.sys.id,
+    name: item.fields.locationName,
+    type: item.fields.locationType,
+    town: item.fields.locationTown,
+    introHtml: item.fields.locationIntro
+      ? documentToHtmlString(item.fields.locationIntro)
+      : '',
+    imageUrl,
+    imageAlt,
+    squareimageUrl,
+    coordinates: item.fields.locationCoord
+      ? [
+          item.fields.locationCoord.lat,
+          item.fields.locationCoord.lon,
+        ]
+      : null,
+    isMon: !!item.fields.locationIsMon,
+    isTue: !!item.fields.locationIsTue,
+    isWed: !!item.fields.locationIsWed,
+    isThu: !!item.fields.locationIsThu,
+    isFri: !!item.fields.locationIsFri,
+    isSat: !!item.fields.locationIsSat,
+    isSun: !!item.fields.locationIsSun,
+
+    // ✅ Added for dynamic route linking
+    locationRegionIsoSlug: item.fields.locationRegionIsoSlug,
+    locationTownSlug: item.fields.locationTownSlug,
+    locationNameSlug: item.fields.locationNameSlug,
+    locationFrequency: item.fields.locationFrequency,
+  };
+});
+
+// Haversine distance helper (km)
+function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const toRad = (deg: number) => deg * (Math.PI / 180);
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+// Apply filters
+// OR-based day logic
+const anyDayFilterSet =
+  locationIsMon || locationIsTue || locationIsWed ||
+  locationIsThu || locationIsFri || locationIsSat || locationIsSun;
+
+// Apply filters
+const filteredLocs = locs.filter((loc) => {
+  const withinRadius = hasCoords && loc.coordinates
+    ? haversineDistance(lat, lon, loc.coordinates[0], loc.coordinates[1]) <= radius
+    : true;
+
+  const matchesDay =
+    !anyDayFilterSet || (
+      (locationIsMon && loc.isMon) ||
+      (locationIsTue && loc.isTue) ||
+      (locationIsWed && loc.isWed) ||
+      (locationIsThu && loc.isThu) ||
+      (locationIsFri && loc.isFri) ||
+      (locationIsSat && loc.isSat) ||
+      (locationIsSun && loc.isSun)
+    );
+
+  return withinRadius && matchesDay;
+});
+
+
+// SEO Values //
+const pageTitle = "Find | Know Brainer Trivia";
+const pageDescription = "Ready to play? Quickly find the nearest Know Brainer Trivia night to you! Our map and listing tool makes it easy to find a venue, time, and day.";
+
+
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <Banner />
+
+
+
+<section class="w-full py-4 px-4">
+  <div class="max-w-6xl mx-auto text-center">
+    <h1 class="text-8xl font-normal mb-0 text-main">Find Us.</h1>
+
+  </div>
+</section>
+
+
+<SearchHead
+  isMon={locationIsMon}
+  isTue={locationIsTue}
+  isWed={locationIsWed}
+  isThu={locationIsThu}
+  isFri={locationIsFri}
+  isSat={locationIsSat}
+  isSun={locationIsSun}
+  suburbLabel={suburbLabel}
+  radius={url.searchParams.get('radius') ?? '3'}
+  lat={url.searchParams.get('lat') ?? ''}
+  lon={url.searchParams.get('lon') ?? ''}
+/>
+
+
+
+
+<div class="flex flex-col-reverse lg:flex-row lg:h-[calc(80vh-120px)] lg:overflow-hidden">
+  <!-- Cards Panel -->
+  <div class="w-full lg:w-1/2 border border-gray-200 lg:overflow-y-auto lg:h-full">
+    <SearchResultsCards locs={filteredLocs} />
+  </div>
+
+  <!-- Map Panel -->
+  <div class="w-full lg:w-1/2 border border-gray-200">
+    <SearchResultsMap locs={filteredLocs} />
+  </div>
+</div>
+
+    <!-- White gap  -->
+  <div class="h-24 bg-white"></div>
+
+
+</Layout>

@@ -1,0 +1,48 @@
+---
+/* No script needed */
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/find', label: 'Local' },
+  { href: '/quiz', label: 'Online' },
+  { href: '/book', label: 'Book' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/host', label: 'Host' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<!-- Full-width header layer inside the hero -->
+<div class="absolute top-0 left-0 right-0 z-50">
+  <!-- peer lives here -->
+  <input id="hero-nav-toggle" type="checkbox" class="peer hidden" />
+
+  <!-- Row: right-aligned hamburger -->
+  <div class="flex justify-end px-4 pt-4">
+    <label
+      for="hero-nav-toggle"
+      class="p-2 rounded-xl cursor-pointer select-none"
+      aria-label="Toggle menu"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg"
+          class="h-7 w-7 text-white"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </label>
+  </div>
+
+  <!-- Drawer: full width, sits BELOW the button -->
+  <div
+    class="absolute left-0 right-0 top-14 w-full max-h-0 overflow-hidden
+           transition-all duration-300 peer-checked:max-h-[70vh] bg-white"
+  >
+    <nav class="flex flex-col px-4 py-3">
+      {links.map((l) => (
+        <a href={l.href} class="link link-hover py-2 hover:bg-stone">
+          {l.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</div>

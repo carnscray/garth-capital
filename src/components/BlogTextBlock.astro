@@ -1,0 +1,76 @@
+---
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+
+interface Props {
+  block: any;
+}
+
+const { block } = Astro.props;
+
+// Trivia blog fields
+const subheading = block?.fields?.triviaBlogtextSubheading || '';
+const richText = block?.fields?.triviaBlogtextBody || null;
+const image = block?.fields?.triviaBlogtextImage || null;
+const anchorId = block?.fields?.triviaBlogtextAnchorid || '';
+
+const bodyHtml = richText ? documentToHtmlString(richText) : '';
+---
+<section class="mb-12">
+  {image?.fields?.file?.url ? (
+    <div class="flex flex-col sm:flex-row gap-4 items-start">
+      <img
+        src={`https:${image.fields.file.url}`}
+        alt={image.fields.title || subheading || 'Article image'}
+        class="w-32 h-32 object-cover rounded-md flex-shrink-0"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="flex-1">
+        {subheading && (
+          <p id={anchorId} class="text-4xl font-bold mb-6">
+            
+              {subheading}
+            
+          </p>
+        )}
+
+        <div
+          class="max-w-none space-y-6
+                 [&_p]:mb-6
+                 [&_ul]:list-disc [&_ul]:ml-6
+                 [&_ol]:list-decimal [&_ol]:ml-6
+                 [&_ul>li]:my-0.5 [&_ol>li]:my-0.5
+                 [&_ul li p]:mb-1 [&_ol li p]:mb-1
+                 [&_li>*:last-child]:mb-0
+                 [&_h2]:text-2xl [&_h2]:font-semibold
+                 [&_h3]:text-xl [&_h3]:font-semibold"
+          set:html={bodyHtml}
+        ></div>
+      </div>
+    </div>
+  ) : (
+    <div>
+      {subheading && (
+        <p id={anchorId} class="text-4xl font-bold mb-6">
+          
+            {subheading}
+          
+        </p>
+      )}
+
+      <div
+  class="max-w-none space-y-6
+         [&_p]:mb-6
+         [&_ul]:list-disc [&_ul]:ml-6
+         [&_ol]:list-decimal [&_ol]:ml-6
+         [&_ul>li]:my-0.5 [&_ol>li]:my-0.5
+         [&_ul li p]:mb-1 [&_ol li p]:mb-1
+         [&_li>*:last-child]:mb-0
+         [&_h2]:text-2xl [&_h2]:font-semibold
+         [&_h3]:text-xl [&_h3]:font-semibold
+         [&_a]:text-blue-600 [&_a]:underline-offset-2 [&_a:hover]:underline"
+        set:html={bodyHtml}
+      ></div>
+    </div>
+  )}
+</section>

@@ -1,0 +1,121 @@
+---
+import CheckboxToggle from '../components/CheckboxToggle.astro';
+
+const {
+  isMon = false,
+  isTue = false,
+  isWed = false,
+  isThu = false,
+  isFri = false,
+  isSat = false,
+  isSun = false,
+  suburbLabel = '',
+  radius = '3',
+  lat = '',
+  lon = '',
+} = Astro.props;
+---
+
+<form method="GET" action="/find" class="w-full py-6 pt-2 pb-6 border-b border-gray-200 relative">
+  <div class="flex flex-col items-center justify-center gap-4 max-w-4xl mx-auto">
+
+    <!-- 🔍 Row 1: Search input and submit button -->
+    <div class="flex flex-row flex-wrap items-center justify-center gap-3 w-full overflow-visible relative">
+      <div class="relative w-full max-w-[250px]">
+        <input
+          type="text"
+          id="suburbInput"
+          name="suburbLabel"
+          value={suburbLabel}
+          placeholder="Search suburb or postcode"
+          class="w-full h-12 px-4 border border-gray-300 bg-white text-gray-800 rounded-md text-base focus:outline-none focus:ring-0 text-left"
+          autocomplete="off"
+        />
+        <ul id="suggestions" class="absolute z-10 w-full bg-white border border-gray-300 rounded shadow-md hidden max-h-60 overflow-y-auto text-left text-sm"></ul>
+      </div>
+
+      <input type="hidden" id="lat" name="lat" value={lat} />
+      <input type="hidden" id="lon" name="lon" value={lon} />
+
+      <button
+        type="submit"
+        class="h-12 px-3 py-0 bg-buttonmain text-white text-sm font-medium rounded-md hover:bg-buttonhover"
+      >
+        <iconify-icon icon="lucide:search" width="22" height="22" class="text-white" />
+      </button>
+    </div>
+
+<!-- 📅 Row 2: All 7 days in one row -->
+<div class="flex flex-row items-center justify-center gap-3 text-sm text-gray-700 overflow-x-auto sm:overflow-visible">
+  <CheckboxToggle name="isMon" label="MON" checked={isMon} class="scale-90 sm:scale-100" />
+  <CheckboxToggle name="isTue" label="TUE" checked={isTue} class="scale-90 sm:scale-100" />
+  <CheckboxToggle name="isWed" label="WED" checked={isWed} class="scale-90 sm:scale-100" />
+  <CheckboxToggle name="isThu" label="THU" checked={isThu} class="scale-90 sm:scale-100" />
+  <CheckboxToggle name="isFri" label="FRI" checked={isFri} class="scale-90 sm:scale-100" />
+  <CheckboxToggle name="isSat" label="SAT" checked={isSat} class="scale-90 sm:scale-100" />
+  <CheckboxToggle name="isSun" label="SUN" checked={isSun} class="scale-90 sm:scale-100" />
+</div>
+
+<!-- 🧭 Row 3: Fixed radius (no dropdown) -->
+<input type="hidden" name="radius" value="8" />
+
+
+
+  </div>
+</form>
+
+<!-- 🧠 Suburb Autocomplete Script Only -->
+<script is:visible>
+  document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('suburbInput');
+    const suggestionsBox = document.getElementById('suggestions');
+    const latInput = document.getElementById('lat');
+    const lonInput = document.getElementById('lon');
+
+    let suburbs = [];
+
+    fetch('/data/australian-postcodes.json')
+      .then(res => res.json())
+      .then(data => suburbs = data)
+      .catch(err => console.error('Failed to load suburb data:', err));
+
+    input.addEventListener('input', () => {
+      const val = input.value.toLowerCase();
+      suggestionsBox.innerHTML = '';
+      if (!val || suburbs.length === 0) {
+        suggestionsBox.classList.add('hidden');
+        return;
+      }
+
+      const matches = suburbs.filter(entry =>
+        entry.suburb.toLowerCase().includes(val) || entry.postcode.includes(val)
+      ).slice(0, 10);
+
+      if (matches.length === 0) {
+        suggestionsBox.classList.add('hidden');
+        return;
+      }
+
+      matches.forEach(match => {
+        const li = document.createElement('li');
+        li.textContent = `${match.suburb}, ${match.state} ${match.postcode}`;
+        li.className = 'px-4 py-2 hover:bg-gray-100 cursor-pointer';
+        li.addEventListener('click', () => {
+          input.value = `${match.suburb}, ${match.state} ${match.postcode}`;
+          latInput.value = match.lat;
+          lonInput.value = match.lon;
+          suggestionsBox.classList.add('hidden');
+        });
+        suggestionsBox.appendChild(li);
+      });
+
+      suggestionsBox.classList.remove('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!suggestionsBox.contains(e.target) && e.target !== input) {
+        suggestionsBox.classList.add('hidden');
+      }
+    });
+  });
+</script>

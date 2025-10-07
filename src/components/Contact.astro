@@ -1,0 +1,68 @@
+---
+const title = "Contact Us";
+---
+
+<section id="contact-us" class="w-full px-8 md:w-2/5 md:mx-auto mt-4 mb-12">
+  <div class="mx-auto">
+    <h2 class="text-7xl sm:text-8xl font-bold text-center mb-4 text-main">
+      Contact Us.
+    </h2>
+
+    <p class="text-center text-charcoal text-lg mb-6">
+      Send us a message and we’ll get back to you shortly. <br />
+      Alternatively drop us an email at: <br />
+      <a href="mailto:hello@knowbrainertrivia.com.au" class="text-[#1daff1] text-xl no-underline">
+        hello@knowbrainertrivia.com.au
+      </a>
+    </p>
+
+    <!-- Pure HTML; no JS. Browser handles validation. -->
+    <form action="/api/contact" method="post" class="space-y-4" accept-charset="UTF-8">
+      <!-- Honeypot (hidden off-screen) -->
+      <input type="text" name="website" autocomplete="off" tabindex="-1"
+             style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" aria-hidden="true" />
+
+      <label class="block">
+        <span class="block font-charcoal">Full Name*</span>
+        <input name="fullName" type="text" required maxlength="120" autocomplete="name"
+               class="mt-1 w-full rounded-xl border border-charcoal p-2" />
+      </label>
+
+      <label class="block">
+        <span class="block font-charcoal">Email*</span>
+        <input name="email" type="email" required autocomplete="email"
+               class="mt-1 w-full rounded-xl border border-charcoal p-2" />
+      </label>
+
+      <label class="block">
+        <span class="block font-charcoal">Mobile (optional)</span>
+        <input name="mobile" type="tel" autocomplete="tel"
+               class="mt-1 w-full rounded-xl border  border-charcoal p-2" />
+      </label>
+
+      <label class="block">
+        <span class="block font-charcoal">Reason*</span>
+        <select name="reason" required class="mt-1 w-full rounded-xl border  border-charcoal p-2">
+          <option value="">--Please choose--</option>
+          <option>General Enquiry</option>
+          <option>Request A Quote</option>
+          <option>Book A Trivia Night</option>
+          <option>Become A Host</option>
+        </select>
+      </label>
+
+      <label class="block">
+        <span class="block font-charcoal">Message*</span>
+        <textarea name="message" required rows="6" maxlength="5000"
+                  class="mt-1 w-full rounded-xl border  border-charcoal p-2"></textarea>
+      </label>
+
+            <button 
+            type="submit" 
+            class="rounded-xl bg-second font-bold px-4 py-2 text-white text-xl hover:bg-daccent">
+            Send
+            </button>
+
+    </form>
+  </div>
+</section>

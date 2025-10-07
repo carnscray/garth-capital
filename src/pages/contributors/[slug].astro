@@ -1,0 +1,26 @@
+---
+import Banner from '~/components/Banner.astro';
+import Layout from '../../layouts/Layout.astro';
+import ContributorProfile from '../../components/ContributorProfile.astro';
+import { getContributorBySlug } from '../../lib/contentful';
+
+const { slug } = Astro.params;
+const contributor = await getContributorBySlug(slug);
+
+if (!contributor) {
+  throw new Error(`Contributor not found for slug: ${slug}`);
+}
+
+// Get the specific data you need from the Contentful object
+const contributorName = contributor.fields.authorName;
+
+// SEO Values //
+const pageTitle =  contributorName + " | Know Brainer Trivia"
+const pageDescription = "Discover more about one of our valued trivia contributors..." +contributorName
+
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+    <Banner />
+  <ContributorProfile contributor={contributor} />
+</Layout>

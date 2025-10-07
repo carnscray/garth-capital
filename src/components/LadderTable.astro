@@ -1,0 +1,92 @@
+---
+// src/components/LadderTable.astro
+export interface Props {
+  ladderUrl: string;
+}
+
+const { ladderUrl } = Astro.props;
+
+let locationName = 'Live Ladder';
+let ladderDate = '';
+let ladderHeaders: string[] = [];
+let ladderData: string[][] = [];
+let error: string | null = null;
+
+if (ladderUrl) {
+  try {
+    const response = await fetch(ladderUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const csvText = await response.text();
+    const rows = csvText.split('\n').map(row => row.trim()).filter(Boolean);
+
+    if (rows.length >= 4) {
+      // Extract metadata
+      locationName = rows[0].split(',')[0] || locationName;
+      ladderDate = rows[1].split(',')[0] || '';
+
+      // Extract header row (Row 4)
+      ladderHeaders = rows[3].split(',');
+
+      // Extract data rows (Row 5 onwards)
+      const dataRows = rows.slice(4);
+      ladderData = dataRows.map(row => row.split(','));
+    }
+  } catch (e: any) {
+    error = 'Could not load the ladder at this time.';
+    console.error(e);
+  }
+}
+---
+
+<section class="bg-stone text-charcoal py-12 rounded-4xl mx-4 lg:mx-12 mt-12">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="text-6xl font-bold mb-2 text-main text-center">{locationName}.</h2>
+    {ladderDate && <p class="text-center text-xl mb-6">{ladderDate}</p>}
+
+    <div class="overflow-x-auto rounded-2xl shadow-md">
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-main text-white text-lg">
+          <tr>
+            {ladderHeaders.map(header => (
+              <th class={`p-4 font-bold ${header.toUpperCase().trim() === 'TEAM NAME' ? 'text-left' : 'text-center'}`}>{header}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {error || ladderData.length === 0 ? (
+            <tr>
+              <td colspan={ladderHeaders.length || 6} class="text-center p-8 bg-white">
+                {error ? error : 'The ladder is not available yet.'}
+              </td>
+            </tr>
+          ) : (
+            ladderData.map((row, index) => (
+              <tr class={`${index % 2 === 0 ? 'bg-white' : 'bg-stone'} border-b border-gray-200`}>
+                {row.map((cell, cellIndex) => {
+                  const isFirst = cellIndex === 0;
+                  const isLast = cellIndex === row.length - 1;
+
+                  // A special case for the team name column to be left-aligned and clamped
+                  if (ladderHeaders[cellIndex]?.toUpperCase().trim() === 'TEAM NAME') {
+                    return <td class="p-4 text-left"><span class="line-clamp-3">{cell}</span></td>;
+                  }
+
+                  let cellClasses = "p-4 text-center";
+                  if (isFirst) {
+                    cellClasses += " font-bold text-main";
+                  } else if (isLast) {
+                    cellClasses += " font-bold";
+                  }
+
+                  return <td class={cellClasses}>{cell}</td>;
+                })}
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

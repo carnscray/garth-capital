@@ -1,0 +1,145 @@
+---
+export const prerender = true;
+
+import Banner from '~/components/Banner.astro';
+import Breadcrumb from '~/components/Breadcrumb.astro';
+import Layout from '~/layouts/Layout.astro';
+import client from '~/lib/contentful';
+
+// No need for getStaticPaths() as this is a single, static page.
+
+const response = await client.getEntries({ content_type: 'triviaLocation', include: 1 });
+
+
+console.log('API Response Item:', response.items[0]); // Look at just the first item for simplicity
+
+
+
+const locations = response.items
+  .map((item) => {
+    const fields = item.fields;
+
+   const locationDay =
+      fields.locationIsMon ? 'MON' :
+      fields.locationIsTue ? 'TUE' :
+      fields.locationIsWed ? 'WED' :
+      fields.locationIsThu ? 'THU' :
+      fields.locationIsFri ? 'FRI' :
+      fields.locationIsSat ? 'SAT' :
+      fields.locationIsSun ? 'SUN' :
+      null;
+
+    console.log('Location Name:', fields.locationName, ' - Day:', locationDay); // <--- Add this line
+
+
+    return {
+      id: item.sys.id,
+      name: fields.locationName,
+      type: fields.locationType,
+      town: fields.locationTown,
+      region: fields.locationRegion,
+      introHtml: '',
+      imageUrl: fields.locationHero?.fields?.file?.url
+        ? `https:${fields.locationHero.fields.file.url}`
+        : null,
+      squareimageUrl: fields.locationHero?.fields?.file?.url
+        ? `https:${fields.locationHero.fields.file.url.replace('/hero/', '/square/')}`
+        : null,
+      imageAlt: fields.locationImageAltText,
+      isOffLead: fields.locationIsOffLead,
+      isEnclosed: fields.locationIsEnclosed,
+      hasWater: fields.locationHasWater,
+      locationRegionIsoSlug: fields.locationRegionIsoSlug,
+      locationTownSlug: fields.locationTownSlug,
+      locationNameSlug: fields.locationNameSlug,
+      locationFrequency: fields.locationFrequency,
+      locationDay: locationDay
+    };
+  });
+  // The filter method has been removed to show all locations.
+
+const breadcrumbs = [
+  { name: 'Locations' },
+];
+
+// SEO Values //
+const pageTitle = "All Trivia Locations | Know Brainer Trivia";
+const pageDescription = "Find a Know Brainer Trivia location near you. We have weekly pub trivia events across all our venues.";
+
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <Banner />
+
+
+
+<section class="w-full py-4 px-4">
+  <div class="max-w-6xl mx-auto text-center">
+    <h1 class="text-8xl font-normal mb-10 text-main">Locations.</h1>
+
+
+
+    {locations.length === 0 ? (
+      <div class="text-center text-gray-500 text-lg py-12">
+        No locations found.
+      </div>
+    ) : (
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8">
+        {locations.map((loc, index) => (
+          <article
+            class={`bg-white border border-gray-200 shadow-sm hover:shadow-lg rounded-lg overflow-hidden flex p-1 flex-col`}
+            key={loc.id}
+          >
+            {loc.squareimageUrl && (
+                <a
+                href={`/locations/${loc.locationRegionIsoSlug}/${loc.locationTownSlug}/${loc.locationNameSlug}`}
+                class="relative block group overflow-hidden rounded-2xl"
+                >
+                <img
+                    src={loc.squareimageUrl}
+                    alt={loc.imageAlt || loc.name}
+                    class="w-full aspect-square object-cover rounded transition-transform duration-300 group-hover:scale-105 z-30"
+                    loading="lazy"
+                />
+
+                <div class="absolute top-1.5 right-1.5 z-20 flex flex-col items-end gap-1">
+                    {loc.locationDay && (
+                    <div class="bg-black/60 text-white text-[11px] px-2 py-1 rounded-md flex items-center gap-1">
+                        <iconify-icon icon="lucide:calendar" width="12" height="12" class="text-white shrink-0" />
+                        <span class="leading-none">{loc.locationDay}</span>
+                    </div>
+                    )}
+
+                    {loc.locationFrequency && (
+                    <p class="bg-white/90 text-gray-700 text-[11px] px-2 py-1 rounded-md inline-block leading-none">
+                        {loc.locationFrequency}
+                    </p>
+                    )}
+                </div>
+                
+              </a>
+            )}
+
+            <div class="p-4 flex-1 flex flex-col">
+              <a
+                href={`/locations/${loc.locationRegionIsoSlug}/${loc.locationTownSlug}/${loc.locationNameSlug}`}
+                class="sm:text-xl font-bold truncate text-cardtitle "
+              >
+                {loc.name}
+              </a>
+
+              {loc.town && (
+                <p class="text-base sm:text-lg text-cardsub uppercase mt-0.5">{loc.town}</p>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+    </div>  
+    </section>
+  
+  <!-- White gap  -->
+  <div class="h-24 bg-white"></div>
+
+</Layout>

@@ -1,0 +1,170 @@
+---
+export const prerender = true;
+
+import Banner from '~/components/Banner.astro';
+import Breadcrumb from '~/components/Breadcrumb.astro';
+import Layout from '~/layouts/Layout.astro';
+import client from '~/lib/contentful';
+
+export async function getStaticPaths() {
+  const response = await client.getEntries({ content_type: 'triviaLocation' });
+
+  const uniquePaths = Array.from(
+    new Map(
+      response.items.map((item) => {
+        const { locationRegionIsoSlug, locationTownSlug } = item.fields;
+        const key = `${locationRegionIsoSlug}-${locationTownSlug}`;
+        return [key, { regionIsoSlug: locationRegionIsoSlug, townSlug: locationTownSlug }];
+      })
+    ).values()
+  );
+
+  return uniquePaths.map(({ regionIsoSlug, townSlug }) => ({
+    params: { regionIsoSlug, townSlug }
+  }));
+}
+
+const { regionIsoSlug, townSlug } = Astro.params;
+
+const response = await client.getEntries({ content_type: 'triviaLocation', include: 1 });
+
+const locations = response.items
+  .map((item) => {
+    const fields = item.fields;
+
+
+
+    
+
+   const locationDay =
+      fields.locationIsMon ? 'MON' :
+      fields.locationIsTue ? 'TUE' :
+      fields.locationIsWed ? 'WED' :
+      fields.locationIsThu ? 'THU' :
+      fields.locationIsFri ? 'FRI' :
+      fields.locationIsSat ? 'SAT' :
+      fields.locationIsSun ? 'SUN' :
+      null;
+
+
+    return {
+      id: item.sys.id,
+      name: fields.locationName,
+      type: fields.locationType,
+      town: fields.locationTown,
+      region: fields.locationRegion,
+      introHtml: '',
+      imageUrl: fields.locationHero?.fields?.file?.url
+        ? `https:${fields.locationHero.fields.file.url}`
+        : null,
+      squareimageUrl: fields.locationHero?.fields?.file?.url
+        ? `https:${fields.locationHero.fields.file.url.replace('/hero/', '/square/')}`
+        : null,
+      imageAlt: fields.locationImageAltText,
+      isOffLead: fields.locationIsOffLead,
+      isEnclosed: fields.locationIsEnclosed,
+      hasWater: fields.locationHasWater,
+      locationRegionIsoSlug: fields.locationRegionIsoSlug,
+      locationTownSlug: fields.locationTownSlug,
+      locationNameSlug: fields.locationNameSlug,
+      locationFrequency: fields.locationFrequency,
+      locationDay: locationDay
+    };
+  })
+  .filter(
+    (loc) =>
+      loc.locationRegionIsoSlug === regionIsoSlug &&
+      loc.locationTownSlug === townSlug
+  );
+
+const regionName = locations[0]?.region ?? regionIsoSlug;
+const townName = locations[0]?.town ?? townSlug.replace(/-/g, ' ');
+
+const breadcrumbs = [
+  { name: 'Locations', href: '/find' },
+  { name: regionName, href: `/locations/${regionIsoSlug}` },
+  { name: townName },
+];
+
+
+// SEO Values //
+const pageTitle =  townName + " | Know Brainer Trivia"
+const pageDescription = "Discover a Know Brainer Trivia location near you in "+ townName + "."
+
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <Banner />
+
+  <div class="max-w-4xl mx-auto pt-4 pb-0 text-center sm:text-left">
+    <Breadcrumb items={breadcrumbs} />
+  </div>
+
+  <section class="p-6 max-w-4xl mx-auto space-y-6">
+    <h1 class="text-2xl font-bold text-gray-900">
+      Locations in {townName}
+    </h1>
+
+    {locations.length === 0 ? (
+      <div class="text-center text-gray-500 text-lg py-12">
+        No locations found in this town.
+      </div>
+    ) : (
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {locations.map((loc, index) => (
+          <article
+            class={`bg-white border border-gray-200 shadow-sm hover:shadow-lg rounded-lg overflow-hidden flex p-1 flex-col`}
+            key={loc.id}
+          >
+            {loc.squareimageUrl && (
+              <a
+                href={`/locations/${loc.locationRegionIsoSlug}/${loc.locationTownSlug}/${loc.locationNameSlug}`}
+                class="relative block group overflow-hidden rounded"
+              >
+                    <img
+                      src={loc.squareimageUrl}
+                      alt={loc.imageAlt || loc.name}
+                      class="w-full aspect-square object-cover rounded transition-transform duration-300 group-hover:scale-105 z-30"
+                      loading="lazy"
+                    />
+
+
+                <div class="absolute top-1.5 right-1.5 z-20 flex flex-col items-end gap-1">
+                    {loc.locationDay && (
+                    <div class="bg-black/60 text-white text-[11px] px-2 py-1 rounded-md flex items-center gap-1">
+                        <iconify-icon icon="lucide:calendar" width="12" height="12" class="text-white shrink-0" />
+                        <span class="leading-none">{loc.locationDay}</span>
+                    </div>
+                    )}
+
+                    {loc.locationFrequency && (
+                    <p class="bg-white/90 text-gray-700 text-[11px] px-2 py-1 rounded-md inline-block leading-none">
+                        {loc.locationFrequency}
+                    </p>
+                    )}
+                </div>
+
+
+
+              </a>
+            )}
+
+            <div class="p-4 flex-1 flex flex-col">
+              <a
+                href={`/locations/${loc.locationRegionIsoSlug}/${loc.locationTownSlug}/${loc.locationNameSlug}`}
+                class="text-base font-bold truncate text-cardtitle hover:underline"
+              >
+                {loc.name}
+              </a>
+
+              {loc.town && (
+                <p class="text-xs text-cardsub uppercase mt-0.5">{loc.town}</p>
+              )}
+
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+</Layout>

@@ -1,0 +1,31 @@
+---
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+const { contributor } = Astro.props;
+
+const name = contributor.fields.authorName;
+const breed = contributor.fields.authorBreed;
+const bioHtml = contributor.fields.authorBio
+  ? documentToHtmlString(contributor.fields.authorBio)
+  : '';
+const img = contributor.fields.authorImgprofile || contributor.fields.authorImgpost;
+---
+
+<article class="max-w-3xl mx-auto p-6">
+  <div class="flex items-center gap-6 mb-6">
+    {img?.fields?.file?.url && (
+      <img
+        src={`https:${img.fields.file.url}`}
+        alt={img.fields.title || name}
+        class="w-24 h-24 object-cover rounded-full -0px"
+      />
+    )}
+    <div>
+      <h1 class="text-4xl font-normal">{name}</h1>
+      <p class="text-normal text-gray-600">{breed}</p>
+    </div>
+  </div>
+
+  {bioHtml && (
+    <div class="text-normal prose max-w-none" set:html={bioHtml}></div>
+  )}
+</article>

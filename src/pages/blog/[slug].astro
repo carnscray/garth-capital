@@ -1,0 +1,165 @@
+---
+import Banner from '~/components/Banner.astro';
+import Layout from '../../layouts/Layout.astro';
+import { getBlogBySlug } from '../../lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import BlogTextBlock from '../../components/BlogTextBlock.astro';
+import RightSideBar from '../../components/RightSideBar.astro'; // optional sidebar content
+
+const { slug } = Astro.params;
+const post = await getBlogBySlug(slug);
+
+if (!post) {
+  throw new Error(`Blog post not found for slug: ${slug}`);
+}
+
+const title = post.fields.blogTitle;
+const published = post.fields.blogPublished;
+const summary = post.fields.blogSummary;
+const hero = post.fields.blogHero;
+const introHtml = post.fields.blogArticleIntro
+  ? documentToHtmlString(post.fields.blogArticleIntro)
+  : '';
+const blocks = post.fields.blogTextId || [];
+
+// Author info
+const authorEntry = post.fields.blogAuthor?.[0];
+const authorName = authorEntry?.fields?.authorName || 'Unknown';
+const authorSlug = authorEntry?.fields?.authorSlug || '';
+const authorImg =
+  authorEntry?.fields?.authorImgprofile?.fields?.file?.url
+    ? `https:${authorEntry.fields.authorImgprofile.fields.file.url}`
+    : null;
+
+// Date formatter for dd-MMM-yyyy
+function formatDate(date) {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = d.toLocaleString('en-GB', { month: 'short' });
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+
+// Extract the URL from the hero object.
+const heroImageUrl = hero?.fields?.file?.url ? `https:${hero.fields.file.url}` : undefined;
+
+
+// SEO Values //
+const pageTitle =  title + " | Know Brainer Trivia"
+const pageDescription = summary
+
+---
+<Layout title={pageTitle} description={pageDescription}  image={heroImageUrl}>
+
+  <Banner />
+
+<section class="bg-second text-white mt-8">
+  <div class="mx-auto w-full px-4 lg:w-[70vw]  max-w-screen-lg py-12">
+    {published && (
+      <div class="text-sm mb-3">Published: {formatDate(published)}</div>
+    )}
+
+    <h1 class="text-6xl sm:text-6xl">{title}</h1>
+
+    {authorEntry && (
+      <div class="mt-4">
+        <a
+          href={authorSlug ? `/contributors/${authorSlug}` : undefined}
+          class="flex items-center gap-2 underline-offset-2 hover:underline"
+        >
+          {authorImg && (
+            <img
+              src={authorImg}
+              alt={authorName}
+              class="w-8 h-8 rounded-full object-cover ring-0 ring-white/80"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <span class="text-sm mb-3">{authorName}</span>
+        </a>
+      </div>
+    )}
+  </div>
+</section>
+
+
+
+
+  <div class="mx-auto w-full px-4 lg:w-[70vw] max-w-screen-lg ">
+    {hero?.fields?.file?.url && (
+      <img
+        src={`https:${hero.fields.file.url}`}
+        alt={post.fields.blogImageAltText || hero.fields.title || title}
+        class="w-full mt-8 rounded-lg object-cover max-h-[400px]"
+      />
+    )}
+
+    <div class="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-12  max-w-screen-lg">
+      <article class="lg:col-span-9 prose prose-neutral max-w-none pr-8">
+        
+
+        {blocks.length > 0 &&
+          blocks.map((block) => <BlogTextBlock block={block} />)}
+      
+    
+    
+        {(authorEntry || published) && (
+          <div class="mt-12 border-t border-gray-200 pt-6 text-charcoal text-sm flex items-center gap-2">
+            {authorImg && (
+              <img
+                src={authorImg}
+                alt={authorName}
+                class="w-8 h-8 rounded-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+
+            {authorEntry ? (
+              <a
+                href={authorSlug ? `/contributors/${authorSlug}` : undefined}
+                class="hover:underline"
+              >
+                {authorName}
+              </a>
+            ) : (
+              <span>{authorName}</span>
+            )}
+
+            {published && (
+              <>
+                <span class="mx-2 text-gray-400">|</span>
+                <span class="text-charcoal">
+                  Published:{' '}
+                  <time datetime={new Date(published).toISOString()}>
+                    {formatDate(published)}
+                  </time>
+                </span>
+              </>
+            )}
+          </div>
+        )}
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    </article>
+
+      <aside class="lg:col-span-3 bg-stone rounded-lg p-4">
+        <RightSideBar />
+      </aside>
+    </div>
+  </div>
+
+<div class="h-40 bg-white"></div>
+
+  
+</Layout>
