@@ -12,7 +12,7 @@ export default defineConfig({
 
   // Add this line to define your production site URL.
   // This is crucial for sitemaps and canonical URLs.
-  site: 'https://www.knowbrainertrivia.com.au',
+  site: 'https://www.garth.capital',
 
   vite: {
     plugins: [tailwindcss()],
@@ -35,7 +35,7 @@ export default defineConfig({
 
   // Redirects
   redirects: {
-        '/host': '/blog/what-makes-a-great-trivia-host'
+        
   },
 
 

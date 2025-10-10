@@ -1,35 +1,9 @@
-<!-- src/components/Banner.astro -->
 <div class="w-full bg-transparent relative z-50">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <!-- Logo -->
-    <a href="/" class="flex-shrink-0">
-      <img
-        src="/img/logo/kb_logo_white.png"
-        alt="Know Brainer logo"
-        class="max-h-12 w-auto"
-      />
-    </a>
-
-    <!-- Desktop menu (centered) -->
-    <div class="hidden lg:flex items-center gap-6 text-white">
-      <a href="/" class="link link-hover text-white">Home</a>
-      <a href="/find" class="link link-hover text-white">Local</a>
-      <a href="/find" class="link link-hover text-white">Online</a>
-      <a href="/book" class="link link-hover text-white">Book</a>
-      <a href="/blog" class="link link-hover text-white">Blog</a>
-
-      <a href="/#contact" class="link link-hover text-white">Contact</a>
-    </div>
-
-    <!-- Tagline (top right on large) -->
-    <h2 class="hidden lg:block text-right text-2xl text-white tracking-normal">
-      Trivia. But Better.
-    </h2>
-
-    <!-- Hamburger button -->
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-end">
+    
     <label
       for="nav-toggle"
-      class="lg:hidden p-2 rounded-xl border border-white cursor-pointer"
+      class="p-2 rounded-xl border border-white cursor-pointer" 
       aria-label="Open menu"
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
@@ -40,23 +14,23 @@
     </label>
   </div>
 
-  <!-- Checkbox toggle for mobile drawer -->
   <input id="nav-toggle" type="checkbox" class="peer hidden" />
 
-  <!-- Mobile drawer -->
   <div
-    class="lg:hidden 
+    class="
            max-h-0 overflow-hidden transition-all duration-300
-           peer-checked:max-h-[600px] w-full max-w-full"
+           peer-checked:max-h-[600px] w-full max-w-full
+          "
   >
-    <div class="px-4 py-3 flex flex-col items-end text-white w-full box-border">
-      <a href="/" class="link link-hover py-2 w-full text-right text-white">Home</a>
-      <a href="/find" class="link link-hover py-2 w-full text-right text-white">Local</a>
-      <a href="/find" class="link link-hover py-2 w-full text-right text-white">Online</a>
-      <a href="/book" class="link link-hover py-2 w-full text-right text-white">Book</a>
-      <a href="/blog" class="link link-hover py-2 w-full text-right text-white">Blog</a>
-
-      <a href="/#contact" class="link link-hover py-2 w-full text-right text-white">Contact</a>
+    <div class="max-w-6xl mx-auto flex justify-end">
+        <div class="px-4 py-3 flex flex-col items-end text-white w-full box-border md:w-auto">
+            <a href="/" class="link link-hover py-2 w-full text-right text-white">Home</a>
+            <a href="/find" class="link link-hover py-2 w-full text-right text-white">Local</a>
+            <a href="/find" class="link link-hover py-2 w-full text-right text-white">Online</a>
+            <a href="/book" class="link link-hover py-2 w-full text-right text-white">Book</a>
+            <a href="/blog" class="link link-hover py-2 w-full text-right text-white">Blog</a>
+            <a href="/#contact" class="link link-hover py-2 w-full text-right text-white">Contact</a>
+        </div>
     </div>
   </div>
 </div>

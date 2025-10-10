@@ -4,17 +4,16 @@ import Layout from '../layouts/Layout.astro';
 import HomeHero from '~/components/HomeHero.astro';
 import Banner from '~/components/Banner.astro';
 
-import HomeAction1 from '~/components/HomeAction-1.astro';
-import HomeAction2 from '~/components/HomeAction-2.astro';
+import HomeBanner1 from '~/components/HomeBanner-1.astro';
+import HomeBanner2 from '~/components/HomeBanner-2.astro';
 
 import HomeInfo1 from '~/components/HomeInfo-1.astro';
 import HomeInfo2 from '~/components/HomeInfo-2.astro';
 import HomeInfo3 from '~/components/HomeInfo-3.astro';
 
 import BlogLatest from '../components/BlogLatest.astro';
-
-
 import HomeCarousel from '~/components/HomeCarousel.astro';
+
 import Contact from '~/components/Contact.astro';
 import { getAllContributors } from '../lib/contentful';
 import client from '../lib/contentful';
@@ -49,37 +48,29 @@ const pageDescription = "Don't just play trivia, experience it! Know Brainer Tri
   <!-- White gap between hero and action -->
   <div class="h-12 bg-white"></div>
 
-  <!-- Action Buttons Section -->
-  <HomeAction1 />
+  <!-- Info Section -->
+  <HomeBanner1 />
 
   <!-- White gap  -->
   <div class="h-12 bg-white"></div>
 
-
-    <!-- Info Secion -->
-  <HomeInfo3 />
-
-
-  <!-- Info Secion -->
+  <!-- Info Section -->
   <HomeInfo1 />
 
-    <!-- White gap  -->
+  <!-- White gap  -->
   <div class="h-12 bg-white"></div>
 
+  <!-- Info Section -->
+  <HomeBanner2 />
 
-  <!-- Blog Latest Section -->
-  <BlogLatest />
-
-  <!-- White gap-->
+  <!-- White gap  -->
   <div class="h-12 bg-white"></div>
 
-  <!-- Trivia Locations Carousel -->
-  <HomeCarousel locations={triviaLocations} />
+  <!-- Info Section -->
+  <HomeInfo2 />
 
 
 
-  <!-- White gap before contact -->
-  <div class="h-12 bg-white"></div>
 
 <!-- Contact Us Section -->
 <section id="contact">
