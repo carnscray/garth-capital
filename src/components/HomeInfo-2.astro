@@ -1,1 +1,79 @@
-  <!-- Empty -->
+---
+// This is a minimal, reusable Astro component for a 3-column metric grid.
+
+// Define the data for the component
+const metrics = [
+  {
+    icon: 'Rocket', // Lucide icon name for demonstration
+    value: 'Start Small',
+    description: 'We begin with focused efforts and a strong foundation.',
+  },
+  {
+    icon: 'Hammer', // Lucide icon name for demonstration
+    value: 'Grow Big',
+    description: 'Scaling slowly through hard work and proven expertise.',
+  },
+  {
+    icon: 'Target', // Lucide icon name for demonstration
+    value: 'Strategic Thinking',
+    description: 'Every action is measured, deliberate, and future-proofed.',
+  },
+  {
+    icon: 'TrendingDown', // Lucide icon name for demonstration (for "under $1M")
+    value: 'EV <$1M',
+    description: 'Keeping valuations grounded to incentivize long-term growth.',
+  },
+  {
+    icon: 'PiggyBank', // Lucide icon name for demonstration
+    value: 'Profit >$0',
+    description: 'Prioritizing sustainable, genuine profitability from day one.',
+  },
+];
+
+// Select the specific 3 metrics requested by the user:
+const selectedMetrics = [
+  metrics[0], // Start Small
+  metrics[3], // EV <$1M
+  metrics[4], // Profit >$0
+];
+
+// NOTE: For the icons to work, you would typically install a library like lucide-astro.
+// npm install lucide-astro
+// Then import them at the top: import { Rocket, Hammer, Target, TrendingDown, PiggyBank } from 'lucide-astro';
+// For this example, we will use placeholders for simplicity.
+---
+
+<section class="py-12 md:py-16 bg-white dark:bg-gray-900">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-xl mx-auto text-center mb-10">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+        Our Guiding Principles
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+        We start small, grow big... slowly through hard work and expertise.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-3 lg:gap-10">
+      {selectedMetrics.map((metric) => (
+        <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center">
+          
+          <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              {/* Replace the path with the path for the appropriate Lucide icon or other SVG */}
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /> 
+            </svg>
+          </div>
+          
+          <p class="text-2xl font-extrabold text-gray-900 dark:text-white">
+            {metric.value}
+          </p>
+          
+          <p class="mt-2 text-base text-gray-500 dark:text-gray-400">
+            {metric.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,83 @@
+---
+// This is a minimal, reusable Astro component for a 3-column metric grid.
+
+// Helper map to convert Lucide names to Iconify strings
+const IconMap = {
+  Age: 'lucide:clock-4',
+  Valuation: 'lucide:circle-dollar-sign', // Perfect for 'EV <$1M'
+  Profitability: 'lucide:trending-up',       // Perfect for 'Profit >$0'
+};
+
+// Define the data for the component
+const metrics = [
+  {
+    icon: IconMap.Age, // Now using the Iconify string 'lucide:rocket'
+    value: 'Trading',
+    description: '3+ years.',
+  },
+  {
+    icon: IconMap.Valuation, // Now using the Iconify string 'lucide:trending-down'
+    value: 'Valuation',
+    description: 'less than $1M',
+  },
+  {
+    icon: IconMap.Profitability, // Now using the Iconify string 'lucide:piggy-bank'
+    value: 'Profitability',
+    description: 'more than $0',
+  },
+    {
+    icon: IconMap.Profitability, // Now using the Iconify string 'lucide:piggy-bank'
+    value: 'Profitability',
+    description: 'more than $0',
+  },
+];
+
+// Select the specific 3 metrics requested by the user:
+// NOTE: I've updated the metrics array above to only contain the 3 you need,
+// so we can use it directly, simplifying the code.
+const selectedMetrics = metrics;
+
+// IMPORTANT: This assumes you have the following in your main layout:
+// <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js" defer></script>
+---
+
+<section class="py-12 md:py-16 bg-white dark:bg-gray-900">
+  <div class="container mx-auto px-40 sm:px-6 lg:px-8">
+    
+
+    
+    <div class="max-w-xl mx-auto text-center mb-10">
+        <h2 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl mb-2">
+            Investment
+        </h2>
+
+        <p class="mt-4 text-xl text-gray-600 mb-12">
+            Investment focuses on small Australian businesses, secured through a majority equity stake or a staged acquisition process.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-10">
+      {selectedMetrics.map((metric) => (
+        <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center">
+          
+        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full mb-4 text-3xl">
+          
+          <iconify-icon 
+            icon={metric.icon} 
+            class="" 
+            style="color: white;"
+          />
+        </div>
+          
+          <p class="text-2xl font-extrabold text-gray-900 dark:text-white">
+            {metric.value}
+          </p>
+          
+          <p class="mt-2 text-2xl text-gray-500 dark:text-gray-400">
+            {metric.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

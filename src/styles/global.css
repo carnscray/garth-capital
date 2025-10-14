@@ -1,11 +1,17 @@
+/* Import Inter from Google Fonts — with 300, 400, 500, 600, 700, 800, 900 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 /* Import Outfit from Google Fonts — with 400, 500, 600 */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
-/* Custom font face for VVDSFifties-SExpBold */
+/* Import Manrope from Google Fonts — with 300, 400, 500, 600, 700, 800 */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+/* Custom font face for Grift Variable (from your uploaded file) */
 @font-face {
-  font-family: 'VVDS Fifties';
-  src: url('/fonts/VVDSFifties-SExpBold.woff2') format('woff2');
-  font-weight: bold;
+  font-family: 'Grift Variable';
+  src: url('/fonts/Grift Variable-VF.ttf') format('truetype');
+  font-weight: 100 900; /* Define the full weight range for the variable font */
   font-style: normal;
   font-display: swap;
 }
@@ -16,7 +22,7 @@
 /* Tailwind base layer override */
 @layer base {
   html {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: 500;
     scroll-behavior: smooth;
     overflow-x: hidden;
@@ -24,13 +30,13 @@
   }
 
   body, p, a, h3, h4 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: 300;
     
   }
 
   h1, h2 {
-    font-family: 'VVDS Fifties', sans-serif;
+    font-family: 'Grift Variable', sans-serif;
     font-weight: bold;
   }
 }
@@ -38,30 +44,47 @@
 
 /* Selected colours */
 :root {
-  --color-lshade: #E5EBE6;
-  --color-laccent: #b6f4f9;
+  --color-main: #2b3e64;
+  --color-second: #496bad;  /*bright red #ae1111*/
 
-  --color-main: #2c94c2;
-  --color-second: #1daff1;
-  --color-charcoal: #383737;
-  --color-stone: #f4f2ee;
+  --color-main-dark: #2b3e64;
+  --color-main-medium: #556583;
+  --color-main-light: #808ba2;
+  --color-main-lighter: #aab2c1;
+  --color-main-lightest: #d5d8e0;
   
-  --color-daccent: #19c3ff;
-  --color-dshade: #222932;
-
-  --color-lgreen: #09c787;
-  --color-dgreen: #008e5e;
-  --color-lyellow: #f8de81;
-  --color-dyellow: #fbc500;
+  --color-black-main: #04060a;
+  --color-black-medium: #0d131e;
+  --color-black-light: #1e2b46;
+  --color-black-lighter: #2b3e64;
 
   
-  --color-buttonmain: #2c94c2;
-  --color-buttonhover: #1daff1;
+  --color-buttonmain: var(--color-main);
+  --color-buttonhover: var(--color-second);
+  --color-buttontext: #ffffff;
 
-  --color-cardtitle: #2C2C2C;
-  --color-cardsub: #2C2C2C;
-  --color-cardicon: #859BB0;
+  --color-buttonaltmain: #ffffff;
+  --color-buttonalthover: var(--color-black-lighter);
+  --color-buttonalttext: var(--color-black-medium);
+
+  --color-bordermain: var(--color-main);
+  --color-borderlight: var(--color-black-lighter);
+
+  --color-cardtitle: var(--color-black-main);
+  --color-cardsub: var(--color-black-medium);
+  --color-cardicon: var(--color-main);
+  --color-cardiconoff: var( --color-black-lighter);
+
+  --color-bgmain: var(--color-main);
+  --color-bgsecond: var(--color-second);
+
+
+
 }
+
+
+
+
 
 @layer utilities {
   .text-main {
@@ -70,26 +93,6 @@
 
   .text-second {
     color: var(--color-second);
-  }
-
-  .text-charcoal {
-    color: var(--color-charcoal);
-  }
-
-  .text-laccent {
-    color: var(--color-laccent);
-  }
-
-  .text-lshade {
-    color: var(--color-lshade);
-  }
-
-  .text-daccent {
-    color: var(--color-daccent);
-  }
-
-  .text-dshade {
-    color: var(--color-dshade);
   }
 
   .text-cardtitle {
@@ -104,12 +107,24 @@
     color: var(--color-cardicon);
   }
 
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
+  .text-cardiconoff {
+    color: var(--color-cardiconoff);
   }
+
+
+
+    .text-blackmain{
+    color: var(  --color-black-main);
+  }
+
+    .text-blackmedium {
+    color: var(--color-black-medium);
+  }
+
+    .text-blacklight {
+    color: var(--color-black-light);
+  }
+
 
 
   @media (min-width: 640px) {
@@ -120,119 +135,63 @@
 
 
   
- /* Background and button utilities */
-.bg-main {
-  background-color: var(--color-main);
-}
+ /* Border utilities */
 
-.border-main {
-  border-color: var(--color-main);
-}
+  .bg-main {
+    background-color: var(--color-bgmain);
+  }
 
-.hover\:bg-main:hover {
-  background-color: var(--color-main);
-}
+  .bg-second {
+    background-color: var(--color-bgsecond);
+  }
 
+  .border-main {
+    border-color: var(--color-bordermain);
+  }
 
-.bg-second {
-  background-color: var(--color-second);
-}
-
-.border-second {
-  border-color: var(--color-second);
-}
-
-.hover\:bg-second:hover {
-  background-color: var(--color-second);
-}
+  .border-light {
+    border-color: var(--color-borderlight);
+  }
 
 
+ /* Button utilities */
 
+  .hover\:bg-main:hover {
+    background-color: var(--color-main);
+  }
 
+  .bg-buttonmain {
+    background-color: var(--color-buttonmain);
+  }
 
-.bg-daccent {
-  background-color: var(--color-daccent);
-}
+  .hover\:bg-buttonhover:hover {
+    background-color: var(--color-buttonhover);
+  }
 
-.hover\:bg-daccent:hover {
-  background-color: var(--color-daccent);
-}
+  .bg-buttonaltmain {
+    background-color: var(--color-buttonaltmain);
+  }
 
-.bg-laccent {
-  background-color: var(--color-laccent);
-}
+  .hover\:bg-buttonalthover:hover {
+    background-color: var(--color-buttonalthover);
+  }
 
-.hover\:bg-\laccent:hover {
-  background-color: var(--color-laccent);
-}
+  .text-buttontext {
+  color: var(--color-buttontext);
+  }
 
-
-
-.bg-charcoal {
-  background-color: var(--color-charcoal);
-}
-
-.border-charcoal {
-  border-color: var(--color-charcoal);
-}
-
-.hover\:bg-charcoal:hover {
-  background-color: var(--color-charcoal);
-}
+  .text-buttonalttext {
+    color: var(--color-buttonalttext);
+  }
 
 
 
 
 
 
-.bg-stone {
-  background-color: var(--color-stone);
-}
-
-
-.border-stone {
-  border-color: var(--color-stone);
-}
-
-.hover\:bg-stone:hover {
-  background-color: var(--color-stone);
-}
 
 
 
-
-
-.bg-lgreen {
-  background-color: var(--color-lgreen);
-}
-.bg-dgreen {
-  background-color: var(--color-dgreen);
-}
-
-.bg-lyellow {
-  background-color: var(--color-lyellow);
-}
-.bg-dyellow {
-  background-color: var(--color-dyellow);
-}
-
-
-
-
-
-
-/* ✅ BUTTON COLORS - USE THESE */
-.bg-buttonmain {
-  background-color: var(--color-buttonmain);
-}
-
-.hover\:bg-buttonhover:hover {
-  background-color: var(--color-buttonhover);
-}
-
-.hover\:bg-stone:hover {
-  background-color: var(--color-stone);
-}
 
 
 
@@ -265,4 +224,4 @@ temporary debug - red line around everything */
 
 
 
-}
+} 
