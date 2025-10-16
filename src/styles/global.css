@@ -7,6 +7,10 @@
 /* Import Manrope from Google Fonts — with 300, 400, 500, 600, 700, 800 */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
 
+/* Import Poppins from Google Fonts — with 300, 400, 500, 600, 700 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
 /* Custom font face for Grift Variable (from your uploaded file) */
 @font-face {
   font-family: 'Grift Variable';
@@ -22,7 +26,7 @@
 /* Tailwind base layer override */
 @layer base {
   html {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Grift Variable', sans-serif;
     font-weight: 500;
     scroll-behavior: smooth;
     overflow-x: hidden;
@@ -30,7 +34,7 @@
   }
 
   body, p, a, h3, h4 {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Grift Variable', sans-serif;
     font-weight: 300;
     
   }
