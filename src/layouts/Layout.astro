@@ -35,7 +35,14 @@ const finalUrl = url || cleanUrl;
     
     
     <!-- Google tag (gtag.js) -->
-     <!-- Removed for Garth Capital - was showing up in KB figures -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WPCH0CGSBG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WPCH0CGSBG');
+    </script>
 
     
     <meta charset="UTF-8" />
