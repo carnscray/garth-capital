@@ -4,16 +4,21 @@ import BannerHome from '../components/BannerHome.astro';
 ---
 
 <section class="relative w-full h-svh overflow-hidden">
-  <!-- Hamburger (no extra wrapper needed) -->
-<BannerHome class="absolute top-0 left-0 w-full z-50" />
+  <!-- Hamburger (no extra wrapper needed) 
+<BannerHome class="absolute top-0 left-0 w-full z-50" />-->
 
 
   <!-- Background Video -->
 <img
     class="absolute inset-0 w-full h-full object-cover z-0"
-    src="/img/banner/gc_cityscape.png"
+    src="/img/hero/cityscape_02.jpg"
     alt="Background Cityscape Image"
 />
+
+<div class="absolute inset-0 w-full h-full bg-main opacity-60 z-0"></div>
+
+<div class="relative z-10">
+    </div>
 
   <!-- Centered Logo -->
 +  <div class="absolute inset-0 z-30 flex items-center justify-center">
@@ -24,10 +29,7 @@ import BannerHome from '../components/BannerHome.astro';
 +    />
    </div>
    
-   <!-- BETA text for prev instance -->
-   <div class="absolute inset-0 z-30 flex items-center justify-center text-white text-8xl">
-    <h2> </h2>
-   </div>
+   
    
 
   <!-- Optional dark overlay -->

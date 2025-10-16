@@ -44,19 +44,19 @@
 
 /* Selected colours */
 :root {
-  --color-main: #2b3e64;
-  --color-second: #496bad;  /*bright red #ae1111*/
+  --color-main: #2c4166;
+  --color-second: #8DA5CE;  /*bright red #ae1111*/
 
-  --color-main-dark: #2b3e64;
-  --color-main-medium: #556583;
-  --color-main-light: #808ba2;
-  --color-main-lighter: #aab2c1;
-  --color-main-lightest: #d5d8e0;
+  --color-main-dark: #2c4166;
+  --color-main-medium: #516080;
+  --color-main-light: #76819B;
+  --color-main-lighter: #9CA3B7;
+  --color-main-lightest: #EBECF0;
   
-  --color-black-main: #04060a;
-  --color-black-medium: #0d131e;
-  --color-black-light: #1e2b46;
-  --color-black-lighter: #2b3e64;
+  --color-black-main: #383737;
+  --color-black-medium: #4a4949;
+  --color-black-light: #F8F8F8;
+  --color-black-lighter: #e8e4e4;
 
   
   --color-buttonmain: var(--color-main);
@@ -143,6 +143,10 @@
 
   .bg-second {
     background-color: var(--color-bgsecond);
+  }
+
+  .bg-blacklight {
+    background-color: var(--color-black-light);
   }
 
   .border-main {

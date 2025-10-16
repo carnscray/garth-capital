@@ -1,92 +1,91 @@
-<div class="py-12 md:py-16 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+---
+// This is a minimal, reusable Astro component for a 3-column metric grid.
 
-    <div class="text-center mb-10 md:mb-16">
-      <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-        Our Approach
-      </h2>
-      <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-        We transform stable businesses into scalable assets through hands-on intervention and capital.
-      </p>
+// Helper map to convert Lucide names to Iconify strings
+const IconMap = {
+  Systems: 'lucide:cog',
+  Structure: 'lucide:layout-panel-top', 
+  Brand: 'lucide:megaphone',       
+  Leadership: 'lucide:arrow-up-wide-narrow',       
+  Capital: 'lucide:landmark',       
+  Stewardship: 'lucide:user-star',      
+};
+
+// Define the data for the component
+const metrics = [
+  {
+    icon: IconMap.Systems, // Now using the Iconify string 'lucide:rocket'
+    value: 'Systems',
+    description: 'Automate and standardise key processes to create a robust, repeatable operating system that is prepared for growth.',
+  },
+  {
+    icon: IconMap.Structure, // Now using the Iconify string 'lucide:trending-down'
+    value: 'Structure',
+    description: 'Provide for a consistent framework for internal roles and external engagement that ensures reliability at scale.',
+  },
+  {
+    icon: IconMap.Brand, // Now using the Iconify string 'lucide:piggy-bank'
+    value: 'Brand & Marketing',
+    description: 'Sharpen and amplify the unique marketing message to attract ideal customers and create the necessary visibility for scalable growth.',
+  },
+    {
+    icon: IconMap.Leadership, // Now using the Iconify string 'lucide:piggy-bank'
+    value: 'Leadership',
+    description: 'Mentor or supplement talent to maintain the consistent intensity, focus, and execution required for scalable success.',
+  },
+    {
+    icon: IconMap.Capital, // Now using the Iconify string 'lucide:piggy-bank'
+    value: 'Capital',
+    description: 'Deliver the financial resources tailored to fund strategic upgrades, leverage new technology, and accelerate business expansion.',
+  },
+    {
+    icon: IconMap.Stewardship, // Now using the Iconify string 'lucide:piggy-bank'
+    value: 'Stewardship',
+    description: 'Handover to highly incentivized leadership dedicated to the long-term health and compounding value of the asset.',
+  },
+];
+
+// Select the specific 3 metrics requested by the user:
+// NOTE: I've updated the metrics array above to only contain the 3 you need,
+// so we can use it directly, simplifying the code.
+const selectedMetrics = metrics;
+
+// IMPORTANT: This assumes you have the following in your main layout:
+// <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js" defer></script>
+---
+
+<section class="py-16 md:py-20 bg-blacklight">
+  <div class="container mx-auto px-4 px-8 ">
+    
+    <div class="max-w-2xl mx-auto text-center mb-8">
+        <h2 class="text-3xl font-extrabold tracking-tight text-main md:text-4xl mb-4">
+            Our Approach
+        </h2>
+
+        <p class="text-lg text-blackmain pb-8">
+            Beyond capital, we deliver hands-on expertise in key areas, including:
+        </p>
     </div>
 
-    <div class="grid grid-cols-2 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-
-      <div class="flex flex-col items-start p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 px-4">
+      {selectedMetrics.map((metric) => (
+        <div class="p-8 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 text-left">
+          
+          <div class="w-16 h-16 flex items-center justify-center bg-second text-main rounded-full mb-6 text-4xl">
+            <iconify-icon 
+              icon={metric.icon} 
+            />
+          </div>
+          
+          <p class="text-xl font-bold text-main">
+            {metric.value}
+          </p>
+          
+          <p class="mt-1 text-base text-blackmain">
+            {metric.description}
+          </p>
         </div>
-        <h3 class="mt-4 text-xl font-bold text-gray-900">Systems</h3>
-        <p class="mt-2 text-base text-gray-600">
-          Removing the "pebble in the shoe" by standardising processes to prepare for growth.
-        </p>
-      </div>
-
-      <div class="flex flex-col items-start p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21v-2.25m0-13.5v-3m0 2.25 1.5.75m-1.5-.75L3.75 3h16.5m-16.5 3h16.5m-16.5 3h16.5m-16.5 3h16.5m-16.5 3h16.5m-16.5 3h16.5m-16.5 3h16.5M7.5 21v-9.75m6 9.75v-3.75m3 3.75v-3.75m3 3.75v-3.75M3.75 21h16.5" />
-          </svg>
-        </div>
-        <h3 class="mt-4 text-xl font-bold text-gray-900">Structure</h3>
-        <p class="mt-2 text-base text-gray-600">
-          Install or overhaul management structures, governance, and operating procedures to prepare for growth.
-        </p>
-      </div>
-
-      <div class="flex flex-col items-start p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8.28 9.94c-1.3-.94-.85-2.92.53-3.96l5.7-4.11a.75.75 0 01.99 1.12l-5.7 4.11c-.38.27-.6.72-.6 1.19v1.44c0 .48.22.93.6 1.19l5.7 4.11a.75.75 0 01-.99 1.12l-5.7-4.11c-.38-.27-.6-.72-.6-1.19v-1.44z" />
-          </svg>
-        </div>
-        <h3 class="mt-4 text-xl font-bold text-gray-900">Brand & Marketing</h3>
-        <p class="mt-2 text-base text-gray-600">
-          Sharpening the market message to increase visibility and growth.
-        </p>
-      </div>
-      
-      <div class="flex flex-col items-start p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0A8.966 8.966 0 0112 20.25a8.966 8.966 0 01-5.982-2.975M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </div>
-        <h3 class="mt-4 text-xl font-bold text-gray-900">Leadership</h3>
-        <p class="mt-2 text-base text-gray-600">
-          Installing or mentoring leadership to maintain intensity and execution.
-        </p>
-      </div>
-      
-      <div class="flex flex-col items-start p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9a3 3 0 110 6 3 3 0 010-6z" />
-          </svg>
-        </div>
-        <h3 class="mt-4 text-xl font-bold text-gray-900">Capital</h3>
-        <p class="mt-2 text-base text-gray-600">
-          Provide the necessary funds for upgrades, technology, or expansion.
-        </p>
-      </div>
-
-      <div class="flex flex-col items-start p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9a3 3 0 110 6 3 3 0 010-6z" />
-          </svg>
-        </div>
-        <h3 class="mt-4 text-xl font-bold text-gray-900">Stewardship</h3>
-        <p class="mt-2 text-base text-gray-600">
-          We install and highly incentivize leadership to ensure dedicated, long-term stewardship of the business.
-        </p>
-      </div>
-
+      ))}
     </div>
   </div>
-</div>
+</section>

@@ -2,39 +2,21 @@
 // Imports
 import Layout from '../layouts/Layout.astro';
 import HomeHero from '~/components/HomeHero.astro';
-import Banner from '~/components/Banner.astro';
-
-import HomeBanner1 from '~/components/HomeBanner-1.astro';
-import HomeBanner2 from '~/components/HomeBanner-2.astro';
-import HomeBanner3 from '~/components/HomeBanner-3.astro';
-import HomeBanner4 from '~/components/HomeBanner-4.astro';
-
-
-import HomeInfo1 from '~/components/HomeInfo-1.astro';
-import HomeInfo2 from '~/components/HomeInfo-2.astro';
-import HomeInfo3 from '~/components/HomeInfo-3.astro';
-
-import BlogLatest from '../components/BlogLatest.astro';
-import HomeCarousel from '~/components/HomeCarousel.astro';
-
 import Contact from '~/components/Contact.astro';
-import { getAllContributors } from '../lib/contentful';
-import client from '../lib/contentful';
+
+import HomeBanner1 from '../components/HomeBanner-1.astro';
+import HomeBanner2 from '../components/HomeBanner-2.astro';
+
+import HomeInfo1 from '../components/HomeInfo-1.astro';
+import HomeInfo2 from '../components/HomeInfo-2.astro';
+import HomeInfo3 from '../components/HomeInfo-3.astro';
+import HomeInfo4 from '../components/HomeInfo-4.astro';
 
 
-// Fetch contributors if needed later
-const contributors = await getAllContributors();
-
-// Fetch trivia locations for carousel
-const response = await client.getEntries({
-  content_type: 'triviaLocation',
-  order: 'fields.locationTime',
-});
-const triviaLocations = response.items;
 
 // SEO Values //
 const pageTitle = "Garth Capital";
-const pageDescription = "Don't just play trivia, experience it! Know Brainer Trivia hosts weekly quizzes with great prizes and a fun atmosphere. Perfect for friends, family, and teams.";
+const pageDescription = "Garth Capital is a venture capital firm focused on investing in early-stage technology companies.";
 
 
 ---
@@ -48,33 +30,12 @@ const pageDescription = "Don't just play trivia, experience it! Know Brainer Tri
     </div>
   </section>.   
 
-
-  <!-- Info Section -->
-  <HomeBanner4 />
-
-    <!-- Info Section -->
-  <HomeBanner1 />
-
-
-  <!-- White gap  -->
-  <div class="h-12 bg-white"></div>
-
-  <!-- Info Section -->
   <HomeBanner2 />
+  <HomeInfo4 />
+  <HomeBanner1 />
+  <HomeInfo1 /> 
+  <HomeInfo2 />
 
-  <!-- White gap  -->
-  <div class="h-12 bg-white"></div>
-
-  <!-- Info Section -->
-  <HomeInfo1 />
-
-
-
-
-<!-- Contact Us Section -->
-<section id="contact">
-  <Contact />
-</section>
 
 
 

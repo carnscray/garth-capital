@@ -1,60 +1,96 @@
 ---
-// No props needed
+const pairs = [
+  {
+    challenge: {
+      title: "Planning Your Legacy",
+      description: "You need a responsible, secure exit that honors your life's work and financial future.",
+      icon: "heroicons:archive-box-arrow-down"
+    },
+    solution: {
+      title: "Seamless Transition",
+      description: "We provide a structured handover, a fair purchase price, and immediate business continuity and stability.",
+      icon: "heroicons:check-badge"
+    }
+  },
+  {
+    challenge: {
+      title: "Burnout or Misalignment",
+      description: "The business demands a specialized turnaround, but you lack the time, energy, or specific expertise to execute it.",
+      icon: "heroicons:bolt-slash"
+    },
+    solution: {
+      title: "Focused Turnaround",
+      description: "We deploy the specific skills and relentless will required to solve complex problems, restore focus, and ensure the business thrives.",
+      icon: "heroicons:rocket-launch"
+    }
+  },
+  {
+    challenge: {
+      title: "Protecting Your People",
+      description: "You want your dedicated team to keep their jobs and thrive, but without carrying the personal liability of ownership.",
+      icon: "heroicons:users"
+    },
+    solution: {
+      title: "Staff Stewardship",
+      description: "We immediately establish a structure that values and rewards your existing team for their future success and commitment.",
+      icon: "heroicons:sparkles"
+    }
+  },
+  {
+    challenge: {
+      title: "Ready for What's Next",
+      description: "The day-to-day grind has worn down your passion, and you're ready to move on to your next chapter.",
+      icon: "heroicons:key"
+    },
+    solution: {
+      title: "Preserving Your Values",
+      description: "We inject fresh capital and strategic energy, allowing you to step away while preserving the culture and values you built.",
+      icon: "heroicons:shield-check"
+    }
+  }
+];
 ---
 
-<section class="py-16 px-4">
-  <!-- First Card -->
-<div class="bg-stone rounded-3xl overflow-hidden max-w-7xl mx-auto shadow-md flex flex-col lg:flex-row lg:h-[500px]">
+<section class="bg-gray-900 py-16 md:py-20">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     
-    <!-- Left: Image -->
-    <div class="w-full lg:w-1/2 h-64 lg:h-full">
-      <img
-        src="/img/hero/hero-memorable.jpg"
-        alt="Example image"
-        class="w-full h-full object-cover rounded-t-3xl lg:rounded-t-none lg:rounded-l-3xl"
-        loading="lazy"
-      />
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+        YOUR CHALLENGE. <span class="text-emerald-400">OUR SOLUTION.</span>
+      </h2>
     </div>
 
-    <!-- Right: Text -->
-    <div class="w-full lg:w-1/2 p-8 flex flex-col justify-center text-left lg:text-left">
-      <h2 class="text-6xl text-charcoal">Make It Memorable.</h2>
-      <p class="text-3xl text-cardsub mb-12">
-        Special Events should be Extra Special.
-      </p>
+    <!-- Grid -->
+    <div class="space-y-12">
+      {pairs.map(pair => (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start p-8 bg-gray-800 rounded-lg border border-gray-700">
+          
+          <!-- Challenge Column -->
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <iconify-icon icon={pair.challenge.icon} class="w-8 h-8 text-red-500 mr-4"></iconify-icon>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold text-white">{pair.challenge.title}</h3>
+              <p class="mt-2 text-lg text-gray-400">{pair.challenge.description}</p>
+            </div>
+          </div>
 
-<a href="/book" class="inline-block max-w-[150px] hover:bg-daccent bg-second text-white text-base font-medium px-6 py-2 rounded-full text-center">
-  Learn more
-</a>
+          <!-- Solution Column -->
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <iconify-icon icon={pair.solution.icon} class="w-8 h-8 text-emerald-400 mr-4"></iconify-icon>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold text-white">{pair.solution.title}</h3>
+              <p class="mt-2 text-lg text-gray-400">{pair.solution.description}</p>
+            </div>
+          </div>
 
+        </div>
+      ))}
     </div>
-  </div>
 
-  <!-- Spacer -->
-  <div class="h-16"></div>
-
-  <!-- Second Card -->
-  <div class="bg-stone rounded-3xl overflow-hidden max-w-7xl mx-auto shadow-md flex flex-col lg:flex-row-reverse lg:h-[500px]">
-    
-    <!-- Right: Image -->
-    <div class="w-full lg:w-1/2 h-64 lg:h-full">
-      <img
-        src="/img/hero/hero-crowd3.jpg"
-        alt="Another image"
-        class="w-full h-full object-cover rounded-t-3xl lg:rounded-t-none lg:rounded-r-3xl"
-        loading="lazy"
-      />
-    </div>
-
-    <!-- Left: Text -->
-    <div class="w-full lg:w-1/2 p-8 flex flex-col justify-center text-left lg:text-left">
-      <h2 class="text-6xl text-charcoal">Build A Crowd.</h2>
-      <p class="text-3xl text-cardsub mb-12">
-        Turn Quiet Nights Into Packed Houses.
-      </p>
-<a href="/book" class="inline-block max-w-[150px] hover:bg-daccent  bg-second text-white text-base font-medium px-6 py-2 rounded-full text-center">
-  Learn more
-</a>
-    </div>
   </div>
 </section>

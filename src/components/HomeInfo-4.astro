@@ -6,6 +6,7 @@ const IconMap = {
   Age: 'lucide:clock-4',
   Valuation: 'lucide:circle-dollar-sign', // Perfect for 'EV <$1M'
   Profitability: 'lucide:trending-up',       // Perfect for 'Profit >$0'
+  Cashflow: 'lucide:banknote-arrow-up',       // Perfect for 'Profit >$0'
 };
 
 // Define the data for the component
@@ -26,9 +27,9 @@ const metrics = [
     description: 'more than $0',
   },
     {
-    icon: IconMap.Profitability, // Now using the Iconify string 'lucide:piggy-bank'
-    value: 'Profitability',
-    description: 'more than $0',
+    icon: IconMap.Cashflow, // Now using the Iconify string 'lucide:piggy-bank'
+    value: 'Cash Flow',
+    description: 'Positive, Generative',
   },
 ];
 
@@ -41,39 +42,34 @@ const selectedMetrics = metrics;
 // <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js" defer></script>
 ---
 
-<section class="py-12 md:py-16 bg-white dark:bg-gray-900">
-  <div class="container mx-auto px-40 sm:px-6 lg:px-8">
+<section class="py-16 md:py-20 bg-blacklight">
+  <div class="container mx-auto px-4 px-8 ">
     
-
-    
-    <div class="max-w-xl mx-auto text-center mb-10">
-        <h2 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl mb-2">
-            Investment
+    <div class="max-w-2xl mx-auto text-center mb-8">
+        <h2 class="text-3xl font-extrabold tracking-tight text-main md:text-4xl mb-4">
+            Investment Criteria
         </h2>
 
-        <p class="mt-4 text-xl text-gray-600 mb-12">
-            Investment focuses on small Australian businesses, secured through a majority equity stake or a staged acquisition process.
+        <p class="mt-4 text-lg text-blackmain pb-8">
+            We focus on small Australian businesses, secured through a majority equity stake or a staged acquisition process.
         </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-10">
+    <div class="grid grid-cols-2 gap-4  lg:grid-cols-4 lg:gap-8">
       {selectedMetrics.map((metric) => (
-        <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center">
+        <div class="p-8 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 text-center">
           
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full mb-4 text-3xl">
+          <div class="mx-auto w-16 h-16 flex items-center justify-center bg-second text-main rounded-full mb-6 text-4xl">
+            <iconify-icon 
+              icon={metric.icon} 
+            />
+          </div>
           
-          <iconify-icon 
-            icon={metric.icon} 
-            class="" 
-            style="color: white;"
-          />
-        </div>
-          
-          <p class="text-2xl font-extrabold text-gray-900 dark:text-white">
+          <p class="text-xl font-bold text-main">
             {metric.value}
           </p>
           
-          <p class="mt-2 text-2xl text-gray-500 dark:text-gray-400">
+          <p class="mt-2 text-lg text-blackmain">
             {metric.description}
           </p>
         </div>
